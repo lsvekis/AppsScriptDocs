@@ -1,0 +1,43 @@
+function formatListItemsAsNormal() {
+  var doc = DocumentApp.getActiveDocument(); // Gets the active document
+  var body = doc.getBody(); // Gets the body of the document
+  var numElements = body.getNumChildren(); // Gets the number of elements in the document
+
+  // Define the "normal" text formatting you want to apply
+  var normalTextStyle = {
+    FONT_FAMILY: DocumentApp.FontFamily.ARIAL,
+    FONT_SIZE: 14,
+    BOLD: false,
+    ITALIC: false,
+    UNDERLINE: false,
+    FOREGROUND_COLOR: '#000000', // Black color
+    LINE_SPACING: 1.5
+  };
+
+  // Convert the normalTextStyle object to the format expected by setAttributes
+  var attributes = {};
+  attributes[DocumentApp.Attribute.FONT_FAMILY] = normalTextStyle.FONT_FAMILY;
+  attributes[DocumentApp.Attribute.FONT_SIZE] = normalTextStyle.FONT_SIZE;
+  attributes[DocumentApp.Attribute.BOLD] = normalTextStyle.BOLD;
+  attributes[DocumentApp.Attribute.ITALIC] = normalTextStyle.ITALIC;
+  attributes[DocumentApp.Attribute.UNDERLINE] = normalTextStyle.UNDERLINE;
+  attributes[DocumentApp.Attribute.FOREGROUND_COLOR] = normalTextStyle.FOREGROUND_COLOR;
+  attributes[DocumentApp.Attribute.LINE_SPACING] = normalTextStyle.LINE_SPACING;
+
+  // Iterate through all elements in the document
+  for (var i = 0; i < numElements; i++) {
+    var element = body.getChild(i);
+    // Check if the element is a list item
+    if (element.getType() === DocumentApp.ElementType.LIST_ITEM) {
+      var listItem = element.asListItem();
+
+      // Apply the "normal" text formatting to the list item
+      listItem.setAttributes(attributes);
+
+      // Adjust indentation to mimic normal text appearance
+      // Note: Indentation adjustments are relative and may need tuning based on document defaults
+      listItem.setIndentStart(0); // Sets the start indent (in points)
+      listItem.setIndentFirstLine(0); // Sets the first line indent (in points)
+    }
+  }
+}
