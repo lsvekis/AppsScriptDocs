@@ -1,0 +1,19 @@
+function adjustListIndentation() {
+  var doc = DocumentApp.getActiveDocument();
+  var body = doc.getBody();
+  var numElements = body.getNumChildren();
+
+  for (var i = 0; i < numElements; i++) {
+    var element = body.getChild(i);
+    if (element.getType() === DocumentApp.ElementType.LIST_ITEM) {
+      var listItem = element.asListItem();
+      // Example of adjusting list item appearance
+      // This doesn't directly adjust indentation but can change the list level or type
+      // For demonstration, let's assume we want to make sure every item is at the first level (less indented)
+      // Check if listItem is already at the desired level to avoid unnecessary changes
+      if (listItem.getNestingLevel() > 0) {
+        listItem.setNestingLevel(0); // Adjusts the nesting level to 0, which is the first level
+      }
+    }
+  }
+}
