@@ -1,0 +1,24 @@
+function boldElementsStartingWithWords() {
+var doc = DocumentApp.getActiveDocument();
+var body = doc.getBody();
+var text = body.getText();
+var searchWords = ['Word1', 'Word2', 'Word3']; // Add your words here
+
+searchWords.forEach(function(word) {
+var searchPattern = '\b' + word + '\b'; // Word boundary to match whole word
+var foundElement = body.findText(searchPattern);
+
+while (foundElement) {
+  var foundText = foundElement.getElement().asText();
+  var startOffset = foundElement.getStartOffset();
+  var endOffset = foundElement.getEndOffsetInclusive();
+
+  // Apply bold formatting to the found word
+  foundText.setBold(startOffset, endOffset, true);
+
+  // Find next occurrence
+  foundElement = body.findText(searchPattern, foundElement);
+}
+
+});
+}
