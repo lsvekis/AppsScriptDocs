@@ -1,0 +1,14 @@
+function cleanText() {
+  var doc = DocumentApp.getActiveDocument();
+  var body = doc.getBody();
+  
+  // Get the text from the document
+  var text = body.getText();
+  
+  // Clean and format the text
+  text = text.replace(/\s+/g, ' '); // Remove extra spaces
+  text = text.trim(); // Trim leading and trailing spaces
+  
+  // Update the document with the cleaned text
+  body.setText(text);
+}
