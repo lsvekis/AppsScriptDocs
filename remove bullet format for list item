@@ -1,0 +1,30 @@
+function removeBulletFormatting() {
+  var doc = DocumentApp.getActiveDocument(); // Gets the active document
+  var body = doc.getBody(); // Gets the body of the document
+  var numElements = body.getNumChildren(); // Gets the number of elements in the document
+  
+  // Iterate through all elements in the document
+  for (var i = 0; i < numElements; i++) {
+    var element = body.getChild(i);
+    // Check if the element is a list item
+    if (element.getType() === DocumentApp.ElementType.LIST_ITEM) {
+      var listItem = element.asListItem();
+      
+      // Convert the list item to a normal text paragraph
+      var text = listItem.getText(); // Get the text of the list item
+      var paragraph = body.insertParagraph(i, text); // Insert a new paragraph with the list item's text before the list item
+      
+      // Copy text attributes from the list item to the new paragraph
+      var attributes = listItem.getAttributes();
+      for (var attr in attributes) {
+        if (attributes[attr] !== null) { // Check if the attribute is not null
+          paragraph.setAttribute(attr, attributes[attr]);
+        }
+      }
+      
+      body.removeChild(listItem); // Remove the original list item
+      i--; // Adjust the index since we removed an element
+      numElements--; // Adjust the total number of elements
+    }
+  }
+}
