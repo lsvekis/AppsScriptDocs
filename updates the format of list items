@@ -1,0 +1,24 @@
+function resetListFormatting() {
+  var doc = DocumentApp.getActiveDocument(); // Gets the active document
+  var body = doc.getBody(); // Gets the body of the document
+  var numElements = body.getNumChildren(); // Gets the number of elements in the document
+  
+  // Default formatting settings (customize as needed)
+  var defaultFontSize = 11;
+  var defaultFontFamily = "Arial";
+  
+  for (var i = 0; i < numElements; i++) {
+    var element = body.getChild(i);
+    if (element.getType() === DocumentApp.ElementType.LIST_ITEM) {
+      var listItem = element.asListItem();
+      
+      // Apply default formatting to the list item
+      listItem.setBold(false)
+              .setItalic(false)
+              .setFontSize(defaultFontSize)
+              .setFontFamily(defaultFontFamily);
+      
+      // Add any additional formatting resets here
+    }
+  }
+}
