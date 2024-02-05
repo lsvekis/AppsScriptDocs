@@ -1,0 +1,21 @@
+function removeLeadingWhitespace() {
+  var body = DocumentApp.getActiveDocument().getBody();
+  var elements = body.getParagraphs();
+  Logger.log(elements.length);
+  
+  for (var i = 0; i < elements.length; i++) {
+    var element = elements[i];
+    var text = element.getText();
+    
+    // Check if the element contains text before attempting to remove leading whitespace
+    if (text) {
+      // Remove leading whitespace or blank space
+      var newText = text.replace(/^\s+/g, '');
+      
+      // Check if newText is not empty before setting it as the element's text
+      if (newText !== "") {
+        element.setText(newText);
+      }
+    }
+  }
+}
