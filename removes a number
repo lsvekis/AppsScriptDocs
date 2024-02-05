@@ -1,0 +1,15 @@
+function removeQuestionNumber() {
+var body = DocumentApp.getActiveDocument().getBody();
+var text = body.getText();
+var paragraphs = body.getParagraphs();
+
+for (var i = 0; i < paragraphs.length; i++) {
+var paragraphText = paragraphs[i].getText();
+// Check if the paragraph starts with “Question ” followed by a number and then a colon
+if (/^Question \d+:/.test(paragraphText)) {
+// Remove the number and the space after “Question”
+var updatedText = paragraphText.replace(/Question \d+:/, ‘Question:’);
+paragraphs[i].setText(updatedText);
+}
+}
+}
