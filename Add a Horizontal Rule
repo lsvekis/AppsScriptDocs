@@ -1,0 +1,14 @@
+function addHorizontalRuleAboveQuestions() {
+  const doc = DocumentApp.getActiveDocument();
+  const body = doc.getBody();
+  const paragraphs = body.getParagraphs();
+
+  for (let i = 0; i < paragraphs.length; i++) {
+    const text = paragraphs[i].getText();
+    if (text.startsWith("Question")) {
+      // Insert a horizontal rule above this paragraph if it starts with "Question"
+      body.insertHorizontalRule(i);
+      i++; // Skip the next paragraph since it's the current question paragraph
+    }
+  }
+}
