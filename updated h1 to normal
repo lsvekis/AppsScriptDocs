@@ -1,0 +1,15 @@
+function updateHeading1ToNormalText() {
+  var doc = DocumentApp.getActiveDocument(); // Gets the active document
+  var body = doc.getBody(); // Gets the body of the document
+  var paragraphs = body.getParagraphs(); // Gets all the paragraphs in the document
+  
+  // Iterates through each paragraph
+  for (var i = 0; i < paragraphs.length; i++) {
+    var paragraph = paragraphs[i];
+    // Checks if the paragraph style is Heading 1
+    if (paragraph.getHeading() === DocumentApp.ParagraphHeading.HEADING1) {
+      // Updates the paragraph style to Normal text
+      paragraph.setHeading(DocumentApp.ParagraphHeading.NORMAL);
+    }
+  }
+}
