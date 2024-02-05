@@ -1,0 +1,14 @@
+function removeSpecificLines() {
+  var doc = DocumentApp.getActiveDocument();
+  var body = doc.getBody();
+  var paragraphs = body.getParagraphs();
+
+  var valueToRemove = "REMOVE_ME"; // Replace with the value you're looking for
+
+  for (var i = paragraphs.length - 1; i >= 0; i--) {
+    var text = paragraphs[i].getText().trim();
+    if (text === valueToRemove) {
+      body.removeChild(paragraphs[i]);
+    }
+  }
+}
