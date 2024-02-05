@@ -1,0 +1,20 @@
+function udpateQuestion() {
+  var doc = DocumentApp.getActiveDocument();
+  var body = doc.getBody();
+  var paragraphs = body.getParagraphs();
+  for (var i = 0; i < paragraphs.length; i++) {
+    var paragraph = paragraphs[i];
+    // Checks if the paragraph style is Heading 1
+    if (paragraph.getHeading() === DocumentApp.ParagraphHeading.HEADING3) {
+    
+      var nextElementIndex = body.getChildIndex(paragraph) + 1;
+      var nextElement = body.getChild(nextElementIndex);
+      Logger.log(nextElement.getType());
+        if (nextElement.getType() === DocumentApp.ElementType.PARAGRAPH) {
+          var nextText = nextElement.asParagraph().getText();
+          paragraph.setText(nextText);
+              body.removeChild(nextElement); // Remove the original next element
+            }
+    }
+  }
+}
