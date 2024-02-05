@@ -1,0 +1,14 @@
+function updateParagraphsToHeading() {
+  var doc = DocumentApp.getActiveDocument();
+  var body = doc.getBody();
+  var paragraphs = body.getParagraphs();
+  
+  var specificWord = "YourWord"; // Replace with the word you're looking for
+
+  paragraphs.forEach(function(paragraph) {
+    var text = paragraph.getText();
+    if (text.startsWith(specificWord)) {
+      paragraph.setHeading(DocumentApp.ParagraphHeading.HEADING1);
+    }
+  });
+}
