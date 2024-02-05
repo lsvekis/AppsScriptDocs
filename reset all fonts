@@ -1,0 +1,26 @@
+function resetDefaultFontSize() {
+  var doc = DocumentApp.getActiveDocument();
+  var body = doc.getBody();
+  
+  // Define the default font size (you can change this to your desired size)
+  var defaultFontSize = 12; // Change to your desired font size
+  
+  // Iterate through all the paragraphs in the document
+  var paragraphs = body.getParagraphs();
+  for (var i = 0; i < paragraphs.length; i++) {
+    var paragraph = paragraphs[i];
+    var attributes = paragraph.getAttributes();
+    
+    // Check if the paragraph is not a header or a title
+    if (!attributes[DocumentApp.Attribute.HEADING] && !paragraph.isListItem()) {
+      paragraph.setFontSize(defaultFontSize);
+    }
+  }
+  
+  // Iterate through all the list items in the document
+  var lists = body.getListItems();
+  for (var i = 0; i < lists.length; i++) {
+    var listItemText = lists[i].editAsText();
+    listItemText.setFontSize(defaultFontSize);
+  }
+}
