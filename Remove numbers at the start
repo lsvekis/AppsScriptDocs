@@ -1,0 +1,23 @@
+function removeNumbersFromPageElements() {
+   const doc = DocumentApp.getActiveDocument();
+    const body = doc.getBody();
+  const elements = body.getParagraphs();
+
+
+  for (var i = 0; i < elements.length; i++) {
+    var element = elements[i];
+    var text = element.getText();
+    
+    // Check if the text starts with a number
+    if (/^\d/.test(text)) {
+      // Find the index of the first period (.)
+      var periodIndex = text.indexOf('.');
+      
+      // Remove the numbers up to the first period
+      if (periodIndex !== -1) {
+        var newText = text.substring(periodIndex + 1);
+        element.setText(newText);
+      }
+    }
+  }
+}
