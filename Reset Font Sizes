@@ -1,0 +1,39 @@
+function resetFontSizes() {
+  var doc = DocumentApp.getActiveDocument();
+  var body = doc.getBody();
+  
+  // Iterate through all elements in the document
+  for (var i = 0; i < body.getNumChildren(); i++) {
+    var element = body.getChild(i);
+    var type = element.getType();
+    
+    // Check if the element is a paragraph
+    if (type == DocumentApp.ElementType.PARAGRAPH) {
+      var paragraph = element.asParagraph();
+      var heading = paragraph.getHeading();
+      
+      // Apply default sizes based on heading type
+      switch (heading) {
+        case DocumentApp.ParagraphHeading.HEADING1:
+          paragraph.setFontSize(24);
+          break;
+        case DocumentApp.ParagraphHeading.HEADING2:
+          paragraph.setFontSize(18);
+          break;
+        case DocumentApp.ParagraphHeading.HEADING3:
+          paragraph.setFontSize(14);
+          break;
+        case DocumentApp.ParagraphHeading.HEADING4:
+        case DocumentApp.ParagraphHeading.HEADING5:
+        case DocumentApp.ParagraphHeading.HEADING6:
+        case DocumentApp.ParagraphHeading.NORMAL:
+          paragraph.setFontSize(11); // Default size for normal text
+          break;
+        default:
+          // Optionally handle other cases
+          break;
+      }
+    }
+    // Add more conditions here if you want to handle other element types
+  }
+}
