@@ -1,0 +1,19 @@
+function removeHeadingIfStartsWithWord() {
+  var doc = DocumentApp.getActiveDocument();
+  var body = doc.getBody();
+  var paragraphs = body.getParagraphs();
+  var triggerWords = ['SpecificWord1', 'SpecificWord2', 'SpecificWord3']; // Replace with your specific words
+  
+  paragraphs.forEach(function(paragraph) {
+    var text = paragraph.getText();
+    var firstWord = text.split(' ')[0]; // Get the first word of the paragraph
+    if (triggerWords.includes(firstWord)) {
+      // Check if the paragraph is a heading
+      var heading = paragraph.getHeading();
+      if (heading !== DocumentApp.ParagraphHeading.NORMAL) {
+        // Change the heading to normal text if it starts with a specific word
+        paragraph.setHeading(DocumentApp.ParagraphHeading.NORMAL);
+      }
+    }
+  });
+}
