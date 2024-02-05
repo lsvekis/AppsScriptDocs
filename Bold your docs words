@@ -1,0 +1,30 @@
+function makeWordsBold() {
+  var docId = 'YOUR_DOCUMENT_ID_HERE'; // Replace with your Google Doc ID
+  var wordsToBold = ['Word1', 'Word2', 'Word3']; // Add the words you want to search and bold
+  
+  var doc = DocumentApp.openById(docId);
+  var body = doc.getBody();
+  
+  wordsToBold.forEach(function(word) {
+    var searchResult = body.findText(word);
+    while (searchResult) {
+      var foundElement = searchResult.getElement();
+      var foundText = foundElement.asText();
+      
+      // Calculate the offset in case the found text is part of a larger element
+      var startOffset = searchResult.getStartOffset();
+      var endOffset = searchResult.getEndOffsetInclusive();
+      
+      // Apply bold formatting only if the word is at the beginning of the element or follows a space (to avoid partial matches)
+      if (startOffset === 0 || foundText.getText().charAt(startOffset - 1) === ' ') {
+        foundText.setBold(startOffset, endOffset, true);
+      }
+      
+      // Search for the next occurrence
+      searchResult = body.findText(word, searchResult);
+    }
+  });
+  
+  // Save the changes
+  doc.saveAndClose();
+}
