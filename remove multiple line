@@ -1,0 +1,26 @@
+function removeMultipleSpecificLines() {
+  var doc = DocumentApp.getActiveDocument();
+  var body = doc.getBody();
+  var paragraphs = body.getParagraphs();
+
+  var valuesToRemove = ["Copy code", "javascript", "html"]; // Replace with the values you're looking for
+
+  for (var i = paragraphs.length - 1; i >= 0; i--) {
+    var text = paragraphs[i].getText().trim();
+    if (valuesToRemove.includes(text)) {
+      body.removeChild(paragraphs[i]);
+    }
+  }
+}
+function removeBlankLines() {
+ var doc = DocumentApp.getActiveDocument();
+ var body = doc.getBody();
+ var paragraphs = body.getParagraphs();
+
+ for (var i = paragraphs.length - 2; i >= 0; i--) {
+ var text = paragraphs[i].getText().trim();
+ if (text === '') {
+ body.removeChild(paragraphs[i]);
+ }
+ }
+}
