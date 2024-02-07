@@ -1,0 +1,15 @@
+function removeBlankLines() {
+  var doc = DocumentApp.getActiveDocument();
+  var body = doc.getBody();
+  var paragraphs = body.getParagraphs();
+  
+  // Iterate backwards through the paragraphs to avoid index shifting issues
+  for (var i = paragraphs.length - 1; i >= 0; i--) {
+    var paragraphText = paragraphs[i].getText().trim();
+    // Check if the paragraph is empty
+    if (paragraphText === '') {
+      // Remove the empty paragraph
+      body.removeChild(paragraphs[i]);
+    }
+  }
+}
