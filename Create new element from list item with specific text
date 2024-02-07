@@ -1,0 +1,23 @@
+function moveAnswerItemsToNewLines() {
+  var doc = DocumentApp.getActiveDocument();
+  var body = doc.getBody();
+  var numChildren = body.getNumChildren();
+  
+  for (var i = 0; i < numChildren; i++) {
+    var child = body.getChild(i);
+    // Check if the child element is a list item
+    if (child.getType() === DocumentApp.ElementType.LIST_ITEM) {
+      var listItem = child.asListItem();
+      var text = listItem.getText();
+      // Check if the text starts with "Answer"
+      if (text.startsWith("Answer")) {
+        // Since we are inserting immediately after, we use the current index + 1
+        body.insertParagraph(i + 1, text);
+        // Remove the original list item
+        body.removeChild(child);
+        // Adjustments to indices not necessary here since we are inserting before deleting
+        numChildren--; // Decrement numChildren to reflect the removed element
+      }
+    }
+  }
+}
