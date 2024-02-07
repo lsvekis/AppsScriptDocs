@@ -1,0 +1,79 @@
+function createDocsFromH3() {
+  var sourceDoc = DocumentApp.getActiveDocument();
+  var body = sourceDoc.getBody();
+  var numChildren = body.getNumChildren();
+  var contentBuffer = [];
+  var quizCounter = 10; // Start counter at 10
+  var sourceDocId = sourceDoc.getId();
+  var sourceDocFolder = getDocumentFolder(sourceDocId);
+
+  for (var i = 0; i < numChildren; i++) {
+    var child = body.getChild(i);
+    var childType = child.getType();
+
+    if (childType === DocumentApp.ElementType.PARAGRAPH &&
+        child.asParagraph().getHeading() === DocumentApp.ParagraphHeading.HEADING3) {
+      if (contentBuffer.length > 0) {
+        var fileName = "Quiz " + quizCounter; // Construct file name with counter
+        createNewDocFromContent(fileName, contentBuffer, sourceDocFolder);
+        contentBuffer = []; // Clear the buffer for the next section
+        quizCounter++; // Increment counter for the next document
+      }
+      // Start buffering content from this H3 element
+      contentBuffer = [{element: child, type: childType}];
+    } else if (contentBuffer.length > 0) {
+      // Buffer subsequent elements, preserving their types
+      contentBuffer.push({element: child, type: childType});
+    }
+  }
+
+  // Handle any remaining content after the last H3
+  if (contentBuffer.length > 0) {
+    var fileName = "Quiz " + quizCounter; // Construct file name for the last section
+    createNewDocFromContent(fileName, contentBuffer, sourceDocFolder);
+  }
+}
+function createNewDocFromContent(title, contentElements, folder) {
+  var newDoc = DocumentApp.create(title); // Create the document
+  var newDocId = newDoc.getId();
+  var newBody = newDoc.getBody();
+  newBody.clear();
+
+  // Append content to the new document, attempting to preserve formatting
+  contentElements.forEach(function(contentItem) {
+    var child = contentItem.element;
+    var type = contentItem.type;
+
+    // Append paragraph elements and try to preserve list formatting
+    if (type === DocumentApp.ElementType.PARAGRAPH) {
+      var para = newBody.appendParagraph(child.asParagraph().getText());
+      // Copy formatting
+      copyFormatting(child.asParagraph(), para);
+    }
+    // Additional cases for other types like images or tables can be added here
+  });
+
+  // Move the new document to the specified folder
+  var file = DriveApp.getFileById(newDocId);
+  file.getParents().next().removeFile(file); // Remove from its current location
+  folder.addFile(file); // Add to the desired folder
+}
+
+function copyFormatting(sourceElement, targetElement) {
+  var attributes = sourceElement.getAttributes();
+  targetElement.setAttributes(attributes);
+  // Specifically handle list items to preserve list formatting
+  if (sourceElement.getType() === DocumentApp.ElementType.LIST_ITEM) {
+    targetElement.setGlyphType(sourceElement.getGlyphType());
+  }
+}
+
+function getDocumentFolder(docId) {
+  var file = DriveApp.getFileById(docId);
+  var parents = file.getParents();
+  if (parents.hasNext()) {
+    return parents.next();
+  } else {
+    throw new Error('Document is not located in a folder.');
+  }
+}
