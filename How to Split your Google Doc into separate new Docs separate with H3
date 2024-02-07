@@ -1,0 +1,75 @@
+function splitDocumentByH3Headings() {
+  var originalDocId = 'YOUR_ORIGINAL_DOCUMENT_ID_HERE'; // Replace with your original document ID
+  var originalDoc = DocumentApp.openById(originalDocId);
+  var body = originalDoc.getBody();
+  var elements = body.getNumChildren();
+  
+  var folderId = DriveApp.getFileById(originalDocId).getParents().next().getId();
+  
+  var newDocNameBase = "quiz";
+  var newDocCount = 10; // Starting count
+  
+  var newDoc = null;
+  var newDocBody = null;
+  
+  for (var i = 0; i < elements; i++) {
+    var element = body.getChild(i);
+    var type = element.getType();
+    
+    // Check if the element is a Paragraph and styled as Heading 3
+    if (type === DocumentApp.ElementType.PARAGRAPH) {
+      var paragraph = element.asParagraph();
+      if (paragraph.getHeading() === DocumentApp.ParagraphHeading.HEADING3) {
+        if (newDoc !== null) {
+          // Move the created document to the correct folder
+          moveFileToFolder(newDoc.getId(), folderId);
+        }
+        // Start a new document for the next section
+        newDoc = DocumentApp.create(newDocNameBase + newDocCount++);
+        newDocBody = newDoc.getBody();
+        newDocBody.clear(); // Clear the automatically created first paragraph
+      }
+    }
+    
+    // If newDoc is not null, it means we are currently filling a section
+    if (newDoc !== null) {
+      copyElementToDoc(element, newDocBody);
+    }
+  }
+  
+  // Move the last document to the desired folder, if any
+  if (newDoc !== null) {
+    moveFileToFolder(newDoc.getId(), folderId);
+  }
+  
+  DocumentApp.getUi().alert('Documents have been created successfully.');
+}
+
+function copyElementToDoc(element, targetBody) {
+  // Function to copy various types of elements to the new document
+  var type = element.getType();
+  var copiedElement;
+  
+  switch(type) {
+    case DocumentApp.ElementType.PARAGRAPH:
+      copiedElement = element.copy();
+      targetBody.appendParagraph(copiedElement);
+      break;
+    case DocumentApp.ElementType.TABLE:
+      copiedElement = element.copy();
+      targetBody.appendTable(copiedElement);
+      break;
+    case DocumentApp.ElementType.LIST_ITEM:
+      copiedElement = element.copy();
+      targetBody.appendListItem(copiedElement);
+      break;
+    // Add more cases as necessary for other element types
+  }
+}
+
+function moveFileToFolder(docId, folderId) {
+  var file = DriveApp.getFileById(docId);
+  var folder = DriveApp.getFolderById(folderId);
+  folder.addFile(file);
+  DriveApp.getRootFolder().removeFile(file);
+}
