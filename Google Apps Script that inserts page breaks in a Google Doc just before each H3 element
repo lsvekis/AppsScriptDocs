@@ -1,0 +1,21 @@
+function insertPageBreaksBeforeH3() {
+  var doc = DocumentApp.getActiveDocument();
+  var body = doc.getBody();
+  var numChildren = body.getNumChildren();
+  
+  for (var i = 0; i < numChildren; i++) {
+    var child = body.getChild(i);
+    if (child.getType() === DocumentApp.ElementType.PARAGRAPH) {
+      var paragraph = child.asParagraph();
+      // Check if the paragraph is an H3 heading
+      if (paragraph.getHeading() === DocumentApp.ParagraphHeading.HEADING3) {
+        // Insert a page break before this H3 element if it's not the first element of the document
+        if (i > 0) {
+          body.insertPageBreak(i - 1);
+          i++; // Increment i because we've added a new element, shifting the indices
+          numChildren++; // Increment numChildren to account for the new page break
+        }
+      }
+    }
+  }
+}
