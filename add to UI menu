@@ -1,0 +1,7 @@
+function onOpen() {
+  var ui = DocumentApp.getUi();
+  // Or DocumentApp or FormApp.
+  ui.createMenu('Custom Scripts')
+      .addItem('Remove Leading Numbers', 'removeLeadingNumbers')
+      .addToUi();
+}
