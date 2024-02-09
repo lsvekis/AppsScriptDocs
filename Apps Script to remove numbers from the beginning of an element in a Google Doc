@@ -1,0 +1,18 @@
+function removeLeadingNumbers() {
+  var doc = DocumentApp.getActiveDocument();
+  var body = doc.getBody();
+  var paragraphs = body.getParagraphs();
+
+  for (var i = 0; i < paragraphs.length; i++) {
+    var text = paragraphs[i].getText();
+    var updatedText = text.replace(/^\d+\s*/, ''); // Remove leading numbers and any spaces immediately following them
+    
+    if (updatedText !== '') { // Check if the updated text is not empty
+      paragraphs[i].setText(updatedText);
+    } else {
+      // If the updated text is empty, you might choose to delete the paragraph, leave it as is, or handle differently
+      // Example: Leave the paragraph as is, or use paragraphs[i].removeFromParent() to delete it
+      // For this example, we'll leave it as is
+    }
+  }
+}
