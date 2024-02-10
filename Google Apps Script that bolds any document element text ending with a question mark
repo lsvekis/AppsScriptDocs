@@ -1,0 +1,25 @@
+function boldTextEndingWithQuestionMark() {
+  // Open the active document or use DocumentApp.openById('DOCUMENT_ID') to open by ID
+  var doc = DocumentApp.getActiveDocument();
+  var body = doc.getBody();
+  
+  // Get the total number of elements in the document
+  var numElements = body.getNumChildren();
+  
+  for (var i = 0; i < numElements; i++) {
+    var element = body.getChild(i);
+    
+    // Check if the element is of type text (paragraph, list item, etc.)
+    if (element.getType() === DocumentApp.ElementType.PARAGRAPH ||
+        element.getType() === DocumentApp.ElementType.LIST_ITEM) {
+      
+      var text = element.asText().getText(); // Get the text of the element
+      var textLength = text.length;
+      
+      // Check if the text ends with a question mark
+      if (textLength > 0 && text[textLength - 1] === '?') {
+        element.asText().setBold(true); // Apply bold formatting to the entire element
+      }
+    }
+  }
+}
