@@ -1,0 +1,19 @@
+function removeLinesStartingWithQuestion() {
+  // Open the active document, or you can open by ID with DocumentApp.openById('your-document-id');
+  var doc = DocumentApp.getActiveDocument();
+  var body = doc.getBody();
+  
+  // Get all the paragraphs in the document
+  var paragraphs = body.getParagraphs();
+  
+  // Iterate backwards through the paragraphs to avoid index shifting after removals
+  for (var i = paragraphs.length - 1; i >= 0; i--) {
+    var paragraph = paragraphs[i];
+    var text = paragraph.getText().trim().toLowerCase(); // Get the paragraph text, trim whitespace, and make lowercase for case-insensitive comparison
+    
+    // Check if the paragraph text starts with 'question'
+    if (text.startsWith('question')) {
+      var element = paragraph.removeFromParent(); // Remove the paragraph if it starts with 'question'
+    }
+  }
+}
