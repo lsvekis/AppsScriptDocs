@@ -1,0 +1,15 @@
+function boldQuestions() {
+  var doc = DocumentApp.getActiveDocument();
+  var body = doc.getBody();
+  var paragraphs = body.getParagraphs();
+
+  paragraphs.forEach(function(paragraph) {
+    var text = paragraph.getText();
+    // Check if the paragraph text ends with a question mark
+    if (text.endsWith('?')) {
+      var textLength = text.length;
+      // Apply bold formatting to the entire paragraph
+      paragraph.editAsText().setBold(0, textLength - 1, true);
+    }
+  });
+}
