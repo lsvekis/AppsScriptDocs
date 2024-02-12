@@ -1,0 +1,24 @@
+function addFooterToAllDocsInFolder() {
+  const folderId = 'YOUR_FOLDER_ID_HERE'; // Replace YOUR_FOLDER_ID_HERE with your actual folder ID
+  const footerText = 'Learn more about coding with Examples and Source Code Laurence Svekis Courses https://basescripts.com/';
+  
+  const folder = DriveApp.getFolderById(folderId);
+  const files = folder.getFilesByType(MimeType.GOOGLE_DOCS);
+  
+  while (files.hasNext()) {
+    const file = files.next();
+    const doc = DocumentApp.openById(file.getId());
+    const footerSection = doc.getFooter();
+    
+    // If the document does not have a footer, create one
+    if (!footerSection) {
+      doc.addFooter().appendParagraph(footerText);
+    } else {
+      // If a footer exists, append the text to the existing footer
+      footerSection.appendParagraph(footerText);
+    }
+    
+    // Save and close the document
+    doc.saveAndClose();
+  }
+}
