@@ -1,0 +1,22 @@
+function removeNumberPrefixAndTrim() {
+  var doc = DocumentApp.getActiveDocument();
+  var body = doc.getBody();
+  var paragraphs = body.getParagraphs();
+
+  paragraphs.forEach(function(paragraph) {
+    var text = paragraph.getText();
+    // Regular expression to match text starting with a number, possibly followed by punctuation and whitespace
+    var updatedText = text.replace(/^\d+[\.\:]\s*/, '').replace(/^\d+\s*/, '');
+
+    // Trim leading whitespace from the updated text
+    updatedText = updatedText.trim();
+
+    // Check if the updated text is not empty before setting it
+    if (updatedText !== '') {
+      paragraph.setText(updatedText);
+    } else {
+      // Optionally handle empty paragraphs, e.g., by deleting them or leaving as is
+      // paragraph.removeFromParent(); // Uncomment to delete empty paragraphs
+    }
+  });
+}
