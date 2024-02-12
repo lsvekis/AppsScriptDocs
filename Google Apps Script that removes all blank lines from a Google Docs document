@@ -1,0 +1,25 @@
+function removeBlankLines() {
+  var document = DocumentApp.getActiveDocument();
+  var body = document.getBody();
+  var totalElements = body.getNumChildren();
+  
+  // Iterate through all elements in reverse order
+  for (var i = totalElements - 1; i >= 0; i--) {
+    var element = body.getChild(i);
+    
+    // Check if the element is a paragraph
+    if (element.getType() === DocumentApp.ElementType.PARAGRAPH) {
+      var text = element.asParagraph().getText().trim();
+      
+      // If the paragraph is empty or contains only whitespace, and it's not the last paragraph in the document
+      if (text === '' && !(i === 0 && totalElements === 1)) {
+        body.removeChild(element);
+      }
+    }
+  }
+  
+  // After removing blank lines, ensure there's at least one paragraph in the document
+  if (body.getNumChildren() === 0) {
+    body.appendParagraph('');
+  }
+}
