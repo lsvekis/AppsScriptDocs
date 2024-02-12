@@ -1,0 +1,22 @@
+function convertListItemsToBullets() {
+  const docId = '1K-g3FKh_jQq2ESqgPQ'; // Replace with your Google Doc ID
+  const doc = DocumentApp.openById(docId);
+  var body = doc.getBody();
+  var numChildren = body.getNumChildren();
+
+  for (var i = 0; i < numChildren; i++) {
+    var child = body.getChild(i);
+    if (child.getType() === DocumentApp.ElementType.PARAGRAPH) {
+      var paragraph = child.asParagraph();
+      // Here you could check if the paragraph matches certain criteria to be converted into a list item
+      // For example, if paragraph starts with "-", you might want to convert it into a bullet list item
+      // This example will just demonstrate how to check type, so this part is left as an exercise
+    } else if (child.getType() === DocumentApp.ElementType.LIST_ITEM) {
+      var listItem = child.asListItem();
+      // This is where you can modify list items, for example, ensuring they are bulleted lists
+      listItem.setGlyphType(DocumentApp.GlyphType.BULLET);
+      // Add any other modifications you want to apply to list items here
+    }
+    // Add more conditions here if you want to handle other element types
+  }
+}
