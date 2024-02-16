@@ -1,0 +1,22 @@
+function convertBulletsToHollowBullets() {
+  var doc = DocumentApp.getActiveDocument();
+  var body = doc.getBody();
+  var lists = body.getListItems();
+  
+  for (var i = 0; i < lists.length; i++) {
+    var listItem = lists[i];
+    var glyphType = listItem.getGlyphType();
+    
+    // Check if the current list item is any type of bullet
+    if (glyphType === DocumentApp.GlyphType.BULLET || glyphType === DocumentApp.GlyphType.HOLLOW_BULLET || glyphType === DocumentApp.GlyphType.SQUARE_BULLET) {
+      // Get the current list item's attributes
+      var attributes = listItem.getAttributes();
+      
+      // Change the glyph type to HOLLOW_BULLET
+      attributes[DocumentApp.Attribute.GLYPH_TYPE] = DocumentApp.GlyphType.HOLLOW_BULLET;
+      
+      // Set the updated attributes back to the list item
+      listItem.setAttributes(attributes);
+    }
+  }
+}
