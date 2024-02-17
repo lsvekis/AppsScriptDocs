@@ -1,0 +1,35 @@
+function convertQuestionToH3() {
+  var body = DocumentApp.getActiveDocument().getBody();
+  var paragraphs = body.getParagraphs();
+  
+  // Iterate through paragraphs in reverse order
+  for (var i = paragraphs.length - 1; i >= 0; i--) {
+    var paragraph = paragraphs[i];
+    var text = paragraph.getText();
+    
+    // Split the paragraph into sentences while preserving punctuation marks
+    var sentences = text.match(/[^.!?]+[.!?]+/g);
+    
+    if (sentences && sentences.length > 0) {
+      // Get the first sentence
+      var firstSentence = sentences[0].trim();
+      
+      // Check if the first sentence ends with a question mark
+      if (firstSentence.slice(-1) === '?') {
+        // Insert the H3 paragraph below the current paragraph
+        var h3Paragraph = body.insertParagraph(i + 1, "");
+        h3Paragraph.setText(firstSentence);
+        h3Paragraph.setHeading(DocumentApp.ParagraphHeading.HEADING3);
+        
+        // Insert the rest of the paragraph as normal text
+        var restOfText = text.substring(firstSentence.length).trim();
+        if (restOfText !== "") {
+          body.insertParagraph(i + 2, restOfText);
+        }
+        
+        // Remove the original paragraph
+        body.removeChild(paragraph);
+      }
+    }
+  }
+}
