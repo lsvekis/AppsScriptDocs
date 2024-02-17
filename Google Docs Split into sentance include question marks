@@ -1,0 +1,21 @@
+function convertQuestionToH3() {
+  var body = DocumentApp.getActiveDocument().getBody();
+  var paragraphs = body.getParagraphs();
+  
+  for (var i = 0; i < paragraphs.length; i++) {
+    var paragraph = paragraphs[i];
+    var text = paragraph.getText();
+    
+    // Split the paragraph into sentences while preserving punctuation marks
+    var sentences = text.match(/[^.!?]+[.!?]+/g);
+    
+    // Get the first sentence
+    var firstSentence = sentences[0].trim();
+    
+    // Check if the first sentence ends with a question mark
+    if (firstSentence.slice(-1) === '?') {
+      // Convert the paragraph to H3 element
+      paragraph.setHeading(DocumentApp.ParagraphHeading.HEADING3);
+    }
+  }
+}
