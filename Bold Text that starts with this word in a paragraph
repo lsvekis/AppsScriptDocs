@@ -1,0 +1,18 @@
+function boldFirstWordBasedOnCriteria() {
+  var doc = DocumentApp.getActiveDocument();
+  var body = doc.getBody();
+  var paragraphs = body.getParagraphs();
+
+  paragraphs.forEach(function(paragraph) {
+    var text = paragraph.getText();
+    var words = text.split(' ');
+    if (words.length > 0) {
+      // Check if the paragraph starts with one of the specified words
+      var firstWord = words[0].toLowerCase(); // Convert to lowercase for case-insensitive comparison
+      if (firstWord === 'code' || firstWord === 'explanation' || firstWord === 'objective') {
+        // Apply bold formatting to the first word
+        paragraph.editAsText().setBold(0, firstWord.length - 1, true);
+      }
+    }
+  });
+}
