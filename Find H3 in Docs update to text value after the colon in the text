@@ -1,0 +1,23 @@
+function processH3Paragraphs() {
+  var doc = DocumentApp.getActiveDocument();
+  var body = doc.getBody();
+  var numChildren = body.getNumChildren();
+
+  for (var i = 0; i < numChildren; i++) {
+    var child = body.getChild(i);
+    // Check if the child element is a paragraph and has Heading 3 style
+    if (child.getType() == DocumentApp.ElementType.PARAGRAPH &&
+        child.asParagraph().getHeading() == DocumentApp.ParagraphHeading.HEADING3) {
+      var text = child.asParagraph().getText();
+      // Check if the text contains a colon
+      if (text.includes(':')) {
+        // Split the text at the colon, get the second part, trim it, and set it as the new text
+        var parts = text.split(':');
+        if (parts.length > 1) { // Ensure there is a second part after the split
+          var newText = parts[1].trim(); // Trim whitespace from the second part
+          child.asParagraph().setText(newText);
+        }
+      }
+    }
+  }
+}
