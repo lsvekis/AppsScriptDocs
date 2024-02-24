@@ -1,0 +1,20 @@
+function updateH3FontSize() {
+  var documentId = 'YOUR_DOCUMENT_ID_HERE'; // Replace with your Google Document ID
+  var doc = DocumentApp.openById(documentId);
+  var body = doc.getBody();
+  
+  // Define the new font size
+  var newFontSize = 18; // Example: 18pt font size
+  
+  var paragraphs = body.getParagraphs();
+  for (var i = 0; i < paragraphs.length; i++) {
+    var paragraph = paragraphs[i];
+    if (paragraph.getHeading() === DocumentApp.ParagraphHeading.HEADING3) {
+      paragraph.setFontSize(newFontSize);
+    }
+  }
+  
+  // Save the changes
+  doc.saveAndClose();
+}
+
