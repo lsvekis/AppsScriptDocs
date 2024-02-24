@@ -1,0 +1,18 @@
+function updateParagraphsToH3() {
+  var documentId = 'YOUR_DOCUMENT_ID_HERE'; // Replace with your Google Document ID
+  var doc = DocumentApp.openById(documentId);
+  var body = doc.getBody();
+  
+  var paragraphs = body.getParagraphs();
+  for (var i = 0; i < paragraphs.length; i++) {
+    var paragraph = paragraphs[i];
+    var text = paragraph.getText();
+    // Check if the paragraph starts with a number followed by a period
+    if (/^\d+\./.test(text)) {
+      paragraph.setHeading(DocumentApp.ParagraphHeading.HEADING3);
+    }
+  }
+  
+  // Save the changes
+  doc.saveAndClose();
+}
