@@ -1,0 +1,13 @@
+function updateNormalTextParagraphs() {
+  var doc = DocumentApp.openById(DOCID);
+  var body = doc.getBody();
+  var paragraphs = body.getParagraphs();
+
+  paragraphs.forEach(function(paragraph) {
+    // Check if the paragraph's heading is NORMAL
+    if (paragraph.getHeading() === DocumentApp.ParagraphHeading.NORMAL) {
+      // Update the font size to 11 and make sure it's not bold
+      paragraph.editAsText().setFontSize(11).setBold(false);
+    }
+  });
+}
