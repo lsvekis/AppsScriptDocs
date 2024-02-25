@@ -1,0 +1,19 @@
+function changeH3ToNormal() {
+  var doc = DocumentApp.openById(DOCID);
+  var body = doc.getBody();
+  var paragraphs = body.getParagraphs();
+
+  paragraphs.forEach(function(paragraph) {
+    // Check if the paragraph's heading is HEADING3
+    if (paragraph.getHeading() === DocumentApp.ParagraphHeading.HEADING3) {
+      var text = paragraph.getText();
+      // Check if the text ends with a question mark
+      if (text.endsWith('?')) {
+        // If it ends with a question mark, do nothing (keep it as HEADING3)
+      } else {
+        // If it does not end with a question mark, change it to normal text
+        paragraph.setHeading(DocumentApp.ParagraphHeading.NORMAL);
+      }
+    }
+  });
+}
