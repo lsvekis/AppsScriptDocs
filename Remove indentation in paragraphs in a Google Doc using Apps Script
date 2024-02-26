@@ -1,0 +1,11 @@
+function removeIndentationFromParagraphs() {
+  var doc = DocumentApp.getActiveDocument();
+  var body = doc.getBody();
+  var paragraphs = body.getParagraphs();
+  
+  for (var i = 0; i < paragraphs.length; i++) {
+    var paragraph = paragraphs[i];
+    paragraph.setIndentFirstLine(0);
+    paragraph.setIndentStart(0);
+  }
+}
