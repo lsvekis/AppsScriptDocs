@@ -1,0 +1,17 @@
+function addBlankLineAboveBoldParagraphs() {
+  var doc = DocumentApp.getActiveDocument();
+  var body = doc.getBody();
+  var paragraphs = body.getParagraphs();
+
+  for (var i = 0; i < paragraphs.length; i++) {
+    var paragraph = paragraphs[i];
+    var text = paragraph.getText();
+    var textStyle = paragraph.getAttributes();
+
+    // Check if the paragraph contains bold text
+    if (textStyle[DocumentApp.Attribute.BOLD]) {
+      // Insert a blank paragraph directly above
+      body.insertParagraph(i, '');
+    }
+  }
+}
