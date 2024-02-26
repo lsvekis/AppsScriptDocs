@@ -1,0 +1,17 @@
+function convertH3ToBoldParagraphs() {
+  var doc = DocumentApp.getActiveDocument();
+  var body = doc.getBody();
+  var paragraphs = body.getParagraphs();
+
+  for (var i = 0; i < paragraphs.length; i++) {
+    var paragraph = paragraphs[i];
+    if (paragraph.getHeading() == DocumentApp.ParagraphHeading.HEADING3) {
+      // Get the text of the H3 paragraph
+      var text = paragraph.getText();
+      // Remove the H3 formatting
+      paragraph.setHeading(DocumentApp.ParagraphHeading.NORMAL);
+      // Replace the paragraph text with bold formatting
+      paragraph.clear().appendText(text).setBold(true);
+    }
+  }
+}
