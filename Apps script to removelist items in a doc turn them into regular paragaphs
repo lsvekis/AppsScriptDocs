@@ -1,0 +1,21 @@
+function convertListItemsToParagraphs() {
+  var doc = DocumentApp.getActiveDocument();
+  var body = doc.getBody();
+  var childIndex = 0;
+
+  while (childIndex < body.getNumChildren()) {
+    var child = body.getChild(childIndex);
+
+    if (child.getType() == DocumentApp.ElementType.LIST_ITEM) {
+      var listItem = child.asListItem();
+      var listItemText = listItem.getText();
+      var listItemIndex = listItem.getParent().getChildIndex(listItem);
+
+      // Add paragraph with the same text and attributes at the same index
+      body.insertParagraph(listItemIndex, listItemText).setAttributes(listItem.getAttributes());
+      listItem.removeFromParent();
+    } else {
+      childIndex++;
+    }
+  }
+}
