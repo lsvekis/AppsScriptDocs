@@ -1,0 +1,19 @@
+function clearLeftIndentation() {
+  var doc = DocumentApp.getActiveDocument();
+  var body = doc.getBody();
+  var paragraphs = body.getParagraphs();
+  var lists = body.getListItems();
+
+  // Clear left indentation for paragraphs
+  for (var i = 0; i < paragraphs.length; i++) {
+    var paragraph = paragraphs[i];
+    paragraph.setIndentStart(0);
+    paragraph.setIndentFirstLine(0);
+  }
+
+  // Clear left indentation for lists
+  for (var i = 0; i < lists.length; i++) {
+    var list = lists[i];
+    list.setIndentStart(0);
+  }
+}
