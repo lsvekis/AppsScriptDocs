@@ -1,0 +1,20 @@
+function checkAndConvertParagraphs() {
+  // Open the active document.
+   var doc = DocumentApp.openById(DOCID);
+  var body = doc.getBody();
+  
+  // Get all the paragraphs in the document.
+  var paragraphs = body.getParagraphs();
+  
+  // Loop through all paragraphs.
+  for (var i = 0; i < paragraphs.length; i++) {
+    var paragraph = paragraphs[i];
+    var text = paragraph.getText();
+    
+    // Check if the paragraph ends with a question mark.
+    if (text.endsWith('?')) {
+      // Convert the paragraph to Heading 3.
+      paragraph.setHeading(DocumentApp.ParagraphHeading.HEADING3);
+    }
+  }
+}
