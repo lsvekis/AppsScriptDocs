@@ -1,0 +1,15 @@
+function removeParagraphIndents() {
+  var document = DocumentApp.getActiveDocument();
+  var body = document.getBody();
+  
+  // Get all paragraphs in the document
+  var paragraphs = body.getParagraphs();
+  
+  // Iterate through all paragraphs to remove indents
+  for (var i = 0; i < paragraphs.length; i++) {
+    var paragraph = paragraphs[i];
+    // Set the first line indent and start indent to 0
+    paragraph.setIndentFirstLine(0);
+    paragraph.setIndentStart(0);
+  }
+}
