@@ -1,0 +1,13 @@
+function resetFontSizeKeepStyles() {
+  var body = DocumentApp.getActiveDocument().getBody();
+  var paragraphs = body.getParagraphs();
+  var defaultSize = DocumentApp.getActiveDocument().getNamedStyle(DocumentApp.NamedStyleType.NORMAL_TEXT).getAttributes().FONT_SIZE;
+  
+  for (var i = 0; i < paragraphs.length; i++) {
+    var child = paragraphs[i];
+    var attributes = child.getAttributes();
+    // Keep the text styles but reset the font size to the default
+    attributes[DocumentApp.Attribute.FONT_SIZE] = defaultSize;
+    child.setAttributes(attributes);
+  }
+}
