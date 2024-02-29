@@ -1,0 +1,23 @@
+function boldNumberedHeadings() {
+  // Open the active document
+  var document = DocumentApp.getActiveDocument();
+  var body = document.getBody();
+  
+  // Get all the paragraphs in the document
+  var paragraphs = body.getParagraphs();
+  
+  for (var i = 0; i < paragraphs.length; i++) {
+    var paragraph = paragraphs[i];
+    
+    // Check if the paragraph is a heading of type H3
+    if (paragraph.getHeading() === DocumentApp.ParagraphHeading.HEADING3) {
+      var text = paragraph.getText();
+      
+      // Check if the paragraph starts with a number
+      if (/^\d/.test(text)) {
+        // Set the text to bold
+        paragraph.editAsText().setBold(true);
+      }
+    }
+  }
+}
