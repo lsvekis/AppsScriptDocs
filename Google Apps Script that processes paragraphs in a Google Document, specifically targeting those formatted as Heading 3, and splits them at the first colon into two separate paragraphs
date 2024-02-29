@@ -1,0 +1,32 @@
+function splitH3Paragraphs() {
+  // Access the active document.
+  var document = DocumentApp.getActiveDocument();
+  var body = document.getBody();
+  
+  // Get all the paragraphs in the document.
+  var paragraphs = body.getParagraphs();
+  
+  // Iterate over all paragraphs in reverse to avoid indexing issues after splitting.
+  for (var i = paragraphs.length - 1; i >= 0; i--) {
+    var paragraph = paragraphs[i];
+    
+    // Check if the paragraph is a Heading 3.
+    if (paragraph.getHeading() === DocumentApp.ParagraphHeading.HEADING3) {
+      var text = paragraph.getText();
+      var colonIndex = text.indexOf(':'); // Find the first colon in the text.
+      
+      // If a colon is found and it's not the last character.
+      if (colonIndex > -1 && colonIndex < text.length - 1) {
+        var firstPart = text.substring(0, colonIndex);
+        var secondPart = text.substring(colonIndex + 1).trim(); // Remove leading spaces.
+        
+        // Update the current paragraph with the first part of the split.
+        paragraph.setText(firstPart);
+        
+        // Create a new paragraph for the second part of the split right after the current one.
+        var newParagraph = body.insertParagraph(i + 1, secondPart);
+        newParagraph.setHeading(DocumentApp.ParagraphHeading.NORMAL); // Set new paragraph as normal text.
+      }
+    }
+  }
+}
