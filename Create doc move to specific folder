@@ -1,0 +1,18 @@
+function createDocAndMoveToSpecificFolder() {
+  var folderId = 'your-folder-id'; // Replace 'your-folder-id' with your actual folder ID
+  var folder = DriveApp.getFolderById(folderId);
+  
+  // Create a new Google Doc in the root directory
+  var doc = DocumentApp.create('New Document');
+  var docId = doc.getId();
+  
+  // Log the URL of the new document for easy access
+  Logger.log('New document created with URL: ' + doc.getUrl());
+  
+  // Move the new document to the specified folder
+  var file = DriveApp.getFileById(docId);
+  folder.addFile(file);
+  DriveApp.getRootFolder().removeFile(file); // Remove the file from the root directory
+  
+  Logger.log('Document moved to the specific folder');
+}
