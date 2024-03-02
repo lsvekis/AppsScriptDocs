@@ -1,0 +1,25 @@
+function copyGoogleDocWithCompleteFormat() {
+  var sourceDocId = 'source-document-id'; // Replace with your source document ID
+  var targetFolderId = 'target-folder-id'; // Replace with your target folder ID
+  
+  // Use Google Drive's copy function to copy the entire document, including formatting, headers, and footers
+  var sourceFile = DriveApp.getFileById(sourceDocId);
+  var newFile = sourceFile.makeCopy(); // Creates a copy of the source document
+  var newDoc = DocumentApp.openById(newFile.getId());
+  
+  // Rename the new document to indicate it's a copy or any other naming convention you prefer
+  newDoc.setName(sourceFile.getName() + ' - Copy');
+  
+  // Move the new document to the specified folder
+  moveDocumentToFolder(newFile.getId(), targetFolderId);
+
+  // Log the URL of the new document for easy access
+  Logger.log('New document created with URL: ' + newDoc.getUrl());
+}
+
+function moveDocumentToFolder(docId, folderId) {
+  var file = DriveApp.getFileById(docId);
+  var folder = DriveApp.getFolderById(folderId);
+  folder.addFile(file); // Add the file to the target folder
+  DriveApp.getRootFolder().removeFile(file); // Remove the file from the root directory if necessary
+}
