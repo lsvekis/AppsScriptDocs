@@ -1,0 +1,42 @@
+function copyGoogleDocWithHeadersAndFooters() {
+  var sourceDocId = 'TEMPID'; // Replace 'TEMPID' with the source document ID
+  var sourceDoc = DocumentApp.openById(sourceDocId);
+ 
+  // Create a new document with the same name as the source followed by ' Copy'
+  var newDoc = DocumentApp.create(sourceDoc.getName() + ' Copy');
+  var newDocId = newDoc.getId();
+  
+  // Copy body from the source document to the new document
+  var body = sourceDoc.getBody();
+  newDoc.getBody().setText(body.getText());
+
+  // Check and copy header from the source document
+  var header = sourceDoc.getHeader();
+  if (header) {
+    var newHeader = newDoc.getHeader() ? newDoc.getHeader() : newDoc.addHeader();
+    copySection(header, newHeader);
+  }
+
+  // Check and copy footer from the source document
+  var footer = sourceDoc.getFooter();
+  if (footer) {
+    var newFooter = newDoc.getFooter() ? newDoc.getFooter() : newDoc.addFooter();
+    copySection(footer, newFooter);
+  }
+
+  // Log the URL of the new document for easy access
+  Logger.log('New document created with URL: ' + newDoc.getUrl());
+}
+
+// Helper function to copy content from one section to another
+function copySection(sourceSection, targetSection) {
+  // Clear the existing content in the target section
+  targetSection.clear();
+  
+  // Append each element from the source to the target
+  var numElements = sourceSection.getNumChildren();
+  for (var i = 0; i < numElements; i++) {
+    var bodyElement = sourceSection.getChild(i).copy();
+    targetSection.appendParagraph(bodyElement.asParagraph());
+  }
+}
