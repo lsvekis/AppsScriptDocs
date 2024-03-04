@@ -1,0 +1,27 @@
+function removeNumbersFromH3() {
+  var body = DocumentApp.getActiveDocument().getBody();
+  var paragraphs = body.getParagraphs();
+
+  // Regular expression to match numbers at the start of the string followed by a dot and space
+  var numberPattern = /^\d+\.\s+/; 
+
+  for (var i = 0; i < paragraphs.length; i++) {
+    var paragraph = paragraphs[i];
+    if (paragraph.getHeading() === DocumentApp.ParagraphHeading.HEADING3) {
+      var text = paragraph.getText();
+      var updatedText = text.replace(numberPattern, '');
+
+      // Only update the paragraph text if the updatedText is not empty
+      if (updatedText !== '') {
+        paragraph.setText(updatedText);
+      } else {
+        // If updatedText is empty, you could decide to set it to a default text
+        // or perform some other logic. If you're okay with just leaving the paragraph
+        // as it is when it turns out empty, you can leave this part out or log a message.
+        // Example:
+        // paragraph.setText('Placeholder text'); // Or simply log a warning
+        Logger.log('Updated text is empty for a paragraph originally containing: ' + text);
+      }
+    }
+  }
+}
