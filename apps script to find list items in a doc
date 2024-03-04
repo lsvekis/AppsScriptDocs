@@ -1,0 +1,18 @@
+function findListItems() {
+  var document = DocumentApp.getActiveDocument();
+  var body = document.getBody();
+  var numChildren = body.getNumChildren();
+  
+  // Iterate through all elements in the document
+  for (var i = 0; i < numChildren; i++) {
+    var child = body.getChild(i);
+    // Check if the element is a list item
+    if (child.getType() === DocumentApp.ElementType.LIST_ITEM) {
+      // Cast the element to a ListItem and log its text
+      var listItem = child.asListItem();
+      Logger.log('List Item: ' + listItem.getText());
+    }
+  }
+  
+  // View the log in the Apps Script editor under View > Logs after running the script
+}
