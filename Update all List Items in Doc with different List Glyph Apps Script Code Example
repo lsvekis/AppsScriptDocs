@@ -1,0 +1,17 @@
+function updateListItemsToBullets1() {
+  var doc = DocumentApp.openById(DOCID);
+  var body = doc.getBody();
+  var numChildren = body.getNumChildren();
+  // Initialize an object to keep track of which list IDs have been processed
+  var processedListIds = {};
+  // Iterate through all elements in the document
+  for (var i = 0; i < numChildren; i++) {
+    var child = body.getChild(i);
+    // Check if the element is a list item
+    if (child.getType() === DocumentApp.ElementType.LIST_ITEM) {
+      var listItem = child.asListItem();
+      var listId = listItem.getListId();
+      listItem.setGlyphType(DocumentApp.GlyphType.SQUARE_BULLET);
+    }
+  }
+}
