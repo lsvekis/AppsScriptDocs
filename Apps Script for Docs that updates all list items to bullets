@@ -1,0 +1,30 @@
+function updateListItemsToBullets() {
+  // Open the active document
+  var document = DocumentApp.getActiveDocument();
+  var body = document.getBody();
+  
+  // Get all paragraphs in the document
+  var paragraphs = body.getParagraphs();
+  
+  for (var i = 0; i < paragraphs.length; i++) {
+    var paragraph = paragraphs[i];
+    // Check if the paragraph is a list item
+    if (paragraph.getIndentStart() !== null) { // If paragraph has a start indent, it's part of a list
+      // Retrieve the list item's attributes
+      var attributes = paragraph.getAttributes();
+      // Check if it's part of a list
+      if (attributes[DocumentApp.Attribute.LIST_ID] !== null) {
+        // Retrieve the list ID and list item's nesting level
+        var listId = attributes[DocumentApp.Attribute.LIST_ID];
+        var nestingLevel = attributes[DocumentApp.Attribute.NESTING_LEVEL] || 0; // Default to 0 if undefined
+        // Convert the list item to a bullet
+        body.getListItems().forEach(function(listItem) {
+          var listItemAttributes = listItem.getAttributes();
+          if (listItemAttributes[DocumentApp.Attribute.LIST_ID] === listId) {
+            body.setListItemGlyphType(listItem, nestingLevel, DocumentApp.GlyphType.BULLET);
+          }
+        });
+      }
+    }
+  }
+}
